@@ -1,0 +1,62 @@
+.new-film {
+    width: 100%;
+    padding: 5px;
+}
+
+.input {
+    border-radius: 25px;
+    padding: 5px 15px;
+    outline: none;
+    border: 2px solid #4e73df;
+    width: 100%;
+
+    &::placeholder {
+        font-size: 14px;
+        font-weight: 400;
+    }
+}
+
+.text-area {
+    max-height: 200px;
+}
+
+.errors {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: red;
+    padding: 5px;
+    font-weight: 600;
+}
+
+.file-img-bar {
+    position: relative;
+
+    button {
+        top: -1%;
+        right: -40%;
+        z-index: 100;
+        position: absolute;
+    }
+
+    img {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+.file-video-bar {
+    position: relative;
+
+    button {
+        top: 16%;
+        left: 93%;
+        z-index: 100;
+        position: absolute;
+    }
+
+}
+
+.select {
+    border: 2px solid #4e73df;
+}

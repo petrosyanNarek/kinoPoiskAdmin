@@ -1,0 +1,37 @@
+.pagination-prev-next {
+    background-color: #4e73df;
+    color: white;
+    border: 1px solid white;
+
+
+    &:hover {
+        background: #6283e9;
+        color: #fff;
+    }
+}
+
+#pagination-active {
+    background-color: #4e73df;
+    color: #fff;
+}
+
+.paginatino-item {
+    max-width: 150px;
+    overflow-x: scroll;
+    display: flex;
+    text-decoration: none;
+    padding: 0;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    li {
+        list-style: none;
+        text-decoration: none;
+    }
+}
+
+.swiper-pagination {
+    display: none;
+}
