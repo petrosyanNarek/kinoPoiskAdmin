@@ -2,7 +2,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "./error500.scss";
 import { useNavigate } from "react-router-dom";
 export const Error500 = () => {
-  toast.error("NotWork Error", {
+  toast.error("Net Work Error", {
     position: "top-center",
     autoClose: 5000,
     hideProgressBar: false,
