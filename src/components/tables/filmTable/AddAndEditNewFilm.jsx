@@ -93,7 +93,7 @@ export const AddAndEditFilm = () => {
     if (!filmId) {
       dispatch(addNewFilm({ film }));
       alertAdded("Film");
-      // reset();
+      reset();
     } else {
       dispatch(editFilm({ film, id: filmId }));
       alertEdited("Film");
