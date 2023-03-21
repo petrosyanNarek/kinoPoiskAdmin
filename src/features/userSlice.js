@@ -26,7 +26,7 @@ export const getUser = createAsyncThunk(
   "/getAdmin",
   async function (id, { rejectWithValue }) {
     try {
-      const response = await api.post("getAdmin", { id });
+      const response = await api.post("/getAdmin", { id });
 
       return response.data.user;
     } catch (err) {

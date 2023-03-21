@@ -15,6 +15,7 @@ export const Admin = () => {
     dispatch(getUser(localStorage.getItem("id")))
       .unwrap()
       .then((r) => {
+        console.log(r);
         setResponse(true);
       });
   }, [dispatch]);
