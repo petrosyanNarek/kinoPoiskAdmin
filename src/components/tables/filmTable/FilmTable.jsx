@@ -157,14 +157,14 @@ export const FilmTable = () => {
                         </td>
                         <td>
                           <img
-                            src={film.cardImg}
+                            src={process.env.REACT_APP_HOST + film.cardImg}
                             alt=""
                             style={{ width: "200px", height: "200px" }}
                           />
                         </td>
                         <td>
                           <video
-                            src={film.trailer}
+                            src={process.env.REACT_APP_HOST + film.trailer}
                             controls={true}
                             height="200px"
                             width="356px"
@@ -172,7 +172,7 @@ export const FilmTable = () => {
                         </td>
                         <td>
                           <video
-                            src={film.video}
+                            src={process.env.REACT_APP_HOST + film.video}
                             controls={true}
                             height="200px"
                             width="356px"

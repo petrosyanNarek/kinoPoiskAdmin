@@ -116,14 +116,14 @@ export const SeriesTable = () => {
                             </td>
                             <td>
                               <img
-                                src={seria.cardImg}
+                                src={process.env.REACT_APP_HOST + seria.cardImg}
                                 alt=""
                                 style={{ width: "200px", height: "200px" }}
                               />
                             </td>
                             <td>
                               <video
-                                src={seria.trailer}
+                                src={process.env.REACT_APP_HOST + seria.trailer}
                                 controls={true}
                                 height="200px"
                                 width="356px"
@@ -131,7 +131,7 @@ export const SeriesTable = () => {
                             </td>
                             <td>
                               <video
-                                src={seria.video}
+                                src={process.env.REACT_APP_HOST + seria.video}
                                 controls={true}
                                 height="200px"
                                 width="356px"

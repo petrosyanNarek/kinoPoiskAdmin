@@ -10,7 +10,7 @@ function isValidFileType(fileName, fileType) {
     validFileExtensions[fileType].indexOf(fileName.split(".").pop()) > -1
   );
 }
-export const FilmSchema = (filmId) => {
+export const FilmSchema = () => {
   return yup.object().shape({
     name: yup.string().required("Name is a required !!!"),
     shortDescription: yup
@@ -58,15 +58,19 @@ export const FilmSchema = (filmId) => {
       .mixed()
       .required("Required")
       .test("is-valid-type", "Not a valid image type", (value) =>
-        isValidFileType(value && value.name && value.name.toLowerCase(), "image")
+        isValidFileType(
+          value && value.name && value.name.toLowerCase(),
+          "image"
+        )
       ),
     trailer: yup
       .mixed()
       .required("Required")
       .test("is-valid-type", "Not a valid vidio type", (value) =>
-        isValidFileType(value && value.name && value.name.toLowerCase(), "video")
-      )
-
+        isValidFileType(
+          value && value.name && value.name.toLowerCase(),
+          "video"
+        )
+      ),
   });
-
-}
+};

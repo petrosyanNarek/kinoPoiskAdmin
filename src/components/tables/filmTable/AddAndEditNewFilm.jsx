@@ -95,8 +95,7 @@ export const AddAndEditFilm = () => {
       alertAdded("Film");
       reset();
     } else {
-      dispatch(editFilm({ film, id: filmId }));
-      alertEdited("Film");
+      alertEdited("Film", () => dispatch(editFilm({ film, id: filmId })));
     }
   };
   return (
@@ -343,7 +342,10 @@ export const AddAndEditFilm = () => {
                     className="fa-solid fa-x btn btn-outline-danger"
                     onClick={() => setImgSelect(true)}
                   ></button>
-                  <img src={selectedFilm?.cardImg} alt="" />
+                  <img
+                    src={process.env.REACT_APP_HOST + selectedFilm?.cardImg}
+                    alt=""
+                  />
                 </div>
               ) : (
                 <>
@@ -386,7 +388,7 @@ export const AddAndEditFilm = () => {
                     onClick={() => setTrailerSelect(true)}
                   ></button>
                   <video
-                    src={selectedFilm?.trailer}
+                    src={process.env.REACT_APP_HOST + selectedFilm?.trailer}
                     width="100%"
                     height="200px"
                     controls={true}
@@ -432,7 +434,7 @@ export const AddAndEditFilm = () => {
                     onClick={() => setVideoSelect(true)}
                   ></button>
                   <video
-                    src={selectedFilm?.video}
+                    src={process.env.REACT_APP_HOST + selectedFilm?.video}
                     width="100%"
                     height="200px"
                     controls={true}

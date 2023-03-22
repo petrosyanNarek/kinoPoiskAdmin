@@ -69,10 +69,11 @@ export const AddAndEditSeries = () => {
     if (!seriaId) {
       dispatch(newSeries(seria));
       alertAdded("Series");
-      // reset();
+      reset();
     } else {
-      dispatch(updateSeries({ seria, id: seriaId }));
-      alertEdited("Series");
+      alertEdited("Series", () =>
+        dispatch(updateSeries({ seria, id: seriaId }))
+      );
     }
   };
   return (
@@ -238,7 +239,9 @@ export const AddAndEditSeries = () => {
                         onClick={() => setTrailerSelect(true)}
                       ></button>
                       <video
-                        src={selectedSeries?.trailer}
+                        src={
+                          process.env.REACT_APP_HOST + selectedSeries?.trailer
+                        }
                         width="100%"
                         height="200px"
                         controls={true}
@@ -284,7 +287,7 @@ export const AddAndEditSeries = () => {
                         onClick={() => setVideoSelect(true)}
                       ></button>
                       <video
-                        src={selectedSeries?.video}
+                        src={process.env.REACT_APP_HOST + selectedSeries?.video}
                         width="100%"
                         height="200px"
                         controls={true}

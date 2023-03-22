@@ -57,8 +57,9 @@ export const AddAndEditActors = () => {
       alertAdded("Actors");
       reset();
     } else {
-      dispatch(updateActor({ actor, id: actorId }));
-      alertEdited("Actors");
+      alertEdited("Actors", () =>
+        dispatch(updateActor({ actor, id: actorId }))
+      );
     }
   };
   return (

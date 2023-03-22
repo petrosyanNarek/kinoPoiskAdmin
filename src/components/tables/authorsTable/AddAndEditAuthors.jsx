@@ -56,8 +56,9 @@ export const AddAndEditAuthors = () => {
       alertAdded("Author");
       // reset();
     } else {
-      dispatch(updateAuthor({ author, id: authorId }));
-      alertEdited("Author");
+      alertEdited("Author", () =>
+        dispatch(updateAuthor({ author, id: authorId }))
+      );
     }
   };
   return (
