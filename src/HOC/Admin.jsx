@@ -9,7 +9,7 @@ import {
 export const Admin = () => {
   const user = useSelector(selectLoginUser);
   const userError = useSelector(selectUserError);
-  const [response, setResponse] = useState(false);
+  const [response, setResponse] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUser(localStorage.getItem("id")))
@@ -17,7 +17,7 @@ export const Admin = () => {
       .then((r) => {
         console.log(r);
         setResponse(true);
-      });
+      }).catch(e => setResponse(false));
   }, [dispatch]);
   if (response) {
     if (user) {
@@ -33,5 +33,7 @@ export const Admin = () => {
       localStorage.clear("id");
       return <Navigate to="/signIn" replace={true} />;
     }
+  } else if (response === false) {
+    return <Navigate to="/error500" replace={true} />;
   }
 };
