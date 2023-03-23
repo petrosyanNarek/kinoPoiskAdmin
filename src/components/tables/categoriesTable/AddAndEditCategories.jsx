@@ -31,9 +31,6 @@ export const AddAndEditCategories = () => {
     reset,
   } = useForm({
     resolver: yupResolver(categoriesSchema),
-    defaultValues: {
-      name: "",
-    },
   });
   useEffect(() => {
     if (categoriesId) {

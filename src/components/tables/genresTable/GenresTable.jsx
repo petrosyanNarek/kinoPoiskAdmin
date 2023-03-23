@@ -42,6 +42,7 @@ export const GenresTable = () => {
         const genre = e.genres.length && e.genres[0];
         SetGenre(genre);
       });
+    window.scrollTo(0, 0);
   }, [dispatch, initialValues]);
   return (
     <>

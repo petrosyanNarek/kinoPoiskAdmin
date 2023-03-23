@@ -48,7 +48,11 @@ export const FilmTable = () => {
         } = e.films.length && e.films[0];
         setFilm(film);
       });
+    window.scrollTo(0, 0);
   }, [dispatch, initialValues]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <div className="w-100 d-flex justify-content-end alifn-items-center">
@@ -71,7 +75,7 @@ export const FilmTable = () => {
         />
         {films.length ? (
           <>
-            <div className="table-responsive px-2  mb-5">
+            <div className="table-responsive px-2  mb-5 table-db-items">
               <table className="table table-borderless">
                 <thead className="table-thead">
                   <tr>

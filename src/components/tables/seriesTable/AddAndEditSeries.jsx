@@ -16,17 +16,8 @@ import { alertEdited } from "../../../hooks/alertEdited";
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { MySpinnerLoader } from "../../UI/spinnerLoader/MySpinnerLoader";
-const seriesSchema = yup.object().shape({
-  name: yup.string().required("Name is a required !!!"),
-  shortDescription: yup
-    .string()
-    .required("Short Description is a required !!!"),
-  description: yup.string().required("Description is required"),
-  rating: yup.number().min(0).max(5).required("Rating is required"),
-  views: yup.number().min(0).required("Views is required"),
-  filmId: yup.number().min(1).required("Category is required"),
-  part: yup.number().min(1).required("Part is required"),
-});
+import { SeriaSchema } from "../../../valiadtion/seriesValidation";
+
 export const AddAndEditSeries = () => {
   const [videoSelect, setVideoSelect] = useState(false);
   const [trailerSelect, setTrailerSelect] = useState(false);
@@ -45,7 +36,7 @@ export const AddAndEditSeries = () => {
     formState: { errors, touchedFields },
     reset,
   } = useForm({
-    resolver: yupResolver(seriesSchema),
+    resolver: yupResolver(SeriaSchema(seriaId)),
     defaultValues: {
       name: "",
     },
@@ -186,7 +177,7 @@ export const AddAndEditSeries = () => {
                 )}
               </div>
             </div>
-            <div className="d-flex justify-content-center align-items-center">
+            <div className="d-flex justify-content-center align-items-center group">
               <div className="group">
                 <div className="w-75 text-center text-primary mt-2">
                   {seriaId > 0 && !imgSelect ? (
@@ -196,7 +187,12 @@ export const AddAndEditSeries = () => {
                         className="fa-solid fa-x btn btn-outline-danger"
                         onClick={() => setImgSelect(true)}
                       ></button>
-                      <img src={selectedSeries?.cardImg} alt="" />
+                      <img
+                        src={
+                          process.env.REACT_APP_HOST + selectedSeries?.cardImg
+                        }
+                        alt=""
+                      />
                     </div>
                   ) : (
                     <>
@@ -354,9 +350,13 @@ export const AddAndEditSeries = () => {
                 )}
               </div>
             </div>
+
             <div className="group mt-5">
               <div className="w-75 text-center text-primary">
-                <button type="submit" className="btn btn-primery serach-btn">
+                <button
+                  type="submit"
+                  className="w-100 fw-bold rounded-pill btn btn-primery serach-btn"
+                >
                   Submit
                 </button>
               </div>

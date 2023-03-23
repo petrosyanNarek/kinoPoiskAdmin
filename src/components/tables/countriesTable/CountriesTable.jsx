@@ -38,6 +38,7 @@ export const CountriesTable = () => {
         const country = e.countries.length && e.countries[0];
         setCountry(country);
       });
+    window.scrollTo(0, 0);
   }, [dispatch, initialValues]);
   return (
     <>

@@ -40,6 +40,7 @@ export const ActorsTable = () => {
         const { img, ...actor } = e.actors[0];
         setActor(actor);
       });
+    window.scrollTo(0, 0);
   }, [dispatch, initialValues]);
   return (
     <>

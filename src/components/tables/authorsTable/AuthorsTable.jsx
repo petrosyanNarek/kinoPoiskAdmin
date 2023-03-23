@@ -41,6 +41,7 @@ export const AuthorsTable = () => {
         const { img, ...author } = e.authors[0];
         setAuthor(author);
       });
+    window.scrollTo(0, 0);
   }, [dispatch, initialValues]);
 
   return (

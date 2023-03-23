@@ -52,7 +52,9 @@ export const AddAndEditFilm = () => {
     formState: { errors, touchedFields },
     reset,
   } = useForm({
-    resolver: yupResolver(FilmSchema(filmId)),
+    resolver: yupResolver(
+      FilmSchema(videoSelect, trailerSelect, imgSelect, filmId)
+    ),
     defaultValues: {
       genres: [],
       countries: [],
@@ -83,6 +85,7 @@ export const AddAndEditFilm = () => {
     } else {
       reset();
     }
+    window.scrollTo(0, 0);
   }, [filmId, dispatch, setValue, reset]);
   const onSubmitHandler = (data) => {
     const film = {

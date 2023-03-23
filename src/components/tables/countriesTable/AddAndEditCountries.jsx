@@ -30,9 +30,6 @@ export const AddAndEditCountries = () => {
     reset,
   } = useForm({
     resolver: yupResolver(countriesSchema),
-    defaultValues: {
-      name: "",
-    },
   });
   useEffect(() => {
     if (countryId) {

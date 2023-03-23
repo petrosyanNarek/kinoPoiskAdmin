@@ -1,13 +1,18 @@
-
-.filter-bar{
+.filter-bar {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 30px;
 }
-.group{
+
+.group {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.form-radio,
+.form-select {
+    cursor: pointer;
 }

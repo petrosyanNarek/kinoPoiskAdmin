@@ -43,6 +43,7 @@ export const CategoriesTable = () => {
         const category = e.categories.length && e.categories[0];
         setCategory(category);
       });
+    window.scrollTo(0, 0);
   }, [dispatch, initialValues]);
 
   return (

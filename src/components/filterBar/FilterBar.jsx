@@ -16,9 +16,12 @@ export const FilterBar = ({ initialValues, setInitialValues, film }) => {
             }}
           >
             <optgroup label="Sort By">
-              {
-                film && Object.keys(film)?.map((e, i) => <option key={i} value={e}>{e}</option>)
-              }
+              {film &&
+                Object.keys(film)?.map((e, i) => (
+                  <option key={i} value={e}>
+                    {e}
+                  </option>
+                ))}
             </optgroup>
           </select>
         </div>
@@ -40,11 +43,12 @@ export const FilterBar = ({ initialValues, setInitialValues, film }) => {
       </div>
       <div className="group">
         <div className="">
-          <label className="text-sm" id="sortBy">
+          <label className="text-sm form-radio" id="sortBy">
             <input
               name="sortOrder"
               value="DESC"
               type="radio"
+              className="form-radio"
               checked={radioCheck}
               onChange={(e) => {
                 setRadioCheck(true);
@@ -58,8 +62,9 @@ export const FilterBar = ({ initialValues, setInitialValues, film }) => {
           </label>
         </div>
         <div className="mx-2">
-          <label className="text-sm" id="sortBy">
+          <label className="text-sm form-radio" id="sortBy">
             <input
+              className="form-radio"
               name="sortOrder"
               value="ASC"
               type="radio"

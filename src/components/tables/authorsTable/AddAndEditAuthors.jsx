@@ -54,7 +54,7 @@ export const AddAndEditAuthors = () => {
     if (!authorId) {
       dispatch(newAuthor(author));
       alertAdded("Author");
-      // reset();
+      reset();
     } else {
       alertEdited("Author", () =>
         dispatch(updateAuthor({ author, id: authorId }))

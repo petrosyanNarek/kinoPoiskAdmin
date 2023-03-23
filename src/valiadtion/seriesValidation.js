@@ -10,24 +10,18 @@ function isValidFileType(fileName, fileType) {
     validFileExtensions[fileType].indexOf(fileName.split(".").pop()) > -1
   );
 }
-export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
+export const SeriaSchema = (
+  videoSelect,
+  trailerSelect,
+  imgSelect,
+  seriesId
+) => {
   return yup.object().shape({
     name: yup.string().required("Name is a required !!!"),
     shortDescription: yup
       .string()
       .required("Short Description is a required !!!"),
     description: yup.string().required("Description is required"),
-    createdYear: yup
-      .number()
-      .min(
-        1890,
-        "The date of the film cannot be less than 1890, because the first film was shot in that year."
-      )
-      .max(
-        new Date().getFullYear(),
-        "The movie date couldn't be bigger than this year"
-      )
-      .required("Created Year is required"),
     rating: yup
       .number()
       .min(0, "Rating cannot be negative")
@@ -37,25 +31,8 @@ export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
       .number()
       .min(0, "Views cannot be negative")
       .required("Views is required"),
-    categoryId: yup.number().required("Category is required"),
-    genres: yup
-      .array()
-      .min(1, "Genres must be 1 or more characters")
-      .required("Genres is requires"),
-    countries: yup
-      .array()
-      .min(1, "Countries must be 1 or more characters")
-      .required("Countries is requires"),
-    actors: yup
-      .array()
-      .min(1, "Actors must be 1 or more characters")
-      .required("Actors is requires"),
-    authors: yup
-      .array()
-      .min(1, "Authors must be 1 or more characters")
-      .required("Authors is requires"),
     cardImg:
-      !filmId || imgSelect
+      !seriesId || imgSelect
         ? yup
             .mixed()
             .required("Required")
@@ -67,7 +44,7 @@ export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
             )
         : "",
     trailer:
-      !filmId || trailerSelect
+      !seriesId || trailerSelect
         ? yup
             .mixed()
             .required("Required")
@@ -79,7 +56,7 @@ export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
             )
         : "",
     video:
-      !filmId || videoSelect
+      !seriesId || videoSelect
         ? yup
             .mixed()
             .required("Required")
@@ -90,5 +67,7 @@ export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
               )
             )
         : "",
+    filmId: yup.number().min(1).required("Category is required"),
+    part: yup.number().min(1).required("Part is required"),
   });
 };

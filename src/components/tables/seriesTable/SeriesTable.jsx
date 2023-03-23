@@ -40,6 +40,7 @@ export const SeriesTable = () => {
           e.series[0];
         setSeria(seria);
       });
+    window.scrollTo(0, 0);
   }, [dispatch, initialValues]);
   return (
     <>
@@ -73,12 +74,13 @@ export const SeriesTable = () => {
                     <thead className="table-thead">
                       <tr>
                         <th scope="col">#ID</th>
-                        <th scope="col">
-                          Film <span>ID</span>
-                        </th>
+                        <th scope="col">FilmID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Sezon</th>
                         <th scope="col">Part</th>
+                        <th scope="col">Card Img</th>
+                        <th scope="col">Trailer</th>
+                        <th scope="col">Video</th>
                         <th scope="col">Short Description</th>
                         <th className="text-center" scope="col">
                           Description
@@ -89,9 +91,6 @@ export const SeriesTable = () => {
                         </th>
                         <th className="text-center" scope="col">
                           Created At
-                        </th>
-                        <th className="text-center" scope="col">
-                          ACTIONS
                         </th>
                       </tr>
                     </thead>

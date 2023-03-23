@@ -10,7 +10,10 @@ import "react-toastify/dist/ReactToastify.css";
 export const LoginFormik = ({ setLoading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const initialValues = {
+    email: "",
+    password: "",
+  };
   const [error, setError] = useState("");
   useEffect(() => {
     if (localStorage.getItem("id")) {
@@ -20,10 +23,7 @@ export const LoginFormik = ({ setLoading }) => {
   return (
     <>
       <Formik
-        initialValues={{
-          email: "",
-          password: "",
-        }}
+        initialValues={initialValues}
         validationSchema={loginSchema}
         onSubmit={async (values, { resetForm }) => {
           setLoading(true);
@@ -52,10 +52,7 @@ export const LoginFormik = ({ setLoading }) => {
               });
             });
           resetForm({
-            values: {
-              email: values.email,
-              password: values.password,
-            },
+            values: initialValues,
           });
         }}
       >
