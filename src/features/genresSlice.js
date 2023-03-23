@@ -74,9 +74,10 @@ export const newGenres = createAsyncThunk(
 
   async function (genre, { rejectWithValue }) {
     try {
-      await api.post(process.env.REACT_APP_NEW_GENRE, { name: genre.name });
+      const respons = await api.post(process.env.REACT_APP_NEW_GENRE, { name: genre.name });
+      return respons.data
     } catch (e) {
-      return rejectWithValue(e.response.data);
+      return rejectWithValue(e.response.data)
     }
   }
 );
@@ -113,16 +114,6 @@ const genresSlice = createSlice({
         state.genre = action.payload;
         state.genresLoading = false;
       })
-      .addCase(newGenres.pending, (state, action) => {
-        state.genresLoading = true;
-      })
-      .addCase(newGenres.rejected, (state, action) => {
-        state.genresError = action.payload;
-        state.genresLoading = false;
-      })
-      .addCase(newGenres.fulfilled, (state, action) => {
-        state.genresLoading = false;
-      });
   },
 });
 

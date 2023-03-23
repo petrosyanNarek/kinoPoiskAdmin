@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export const alertAdded = (name) => {
+export const alertAdded = (name, next) => {
   let timerInterval;
   Swal.fire({
     title: `${name} added!`,
@@ -12,9 +12,11 @@ export const alertAdded = (name) => {
       const b = Swal.getHtmlContainer().querySelector("b");
       timerInterval = setInterval(() => {
         b.textContent = Swal.getTimerLeft();
-      }, 100);
+      }, 2000);
     },
+
     willClose: () => {
+      next()
       clearInterval(timerInterval);
     },
   });

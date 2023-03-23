@@ -14,8 +14,9 @@ import { alertAdded } from "../../../hooks/alertAdded";
 import { selectCategoriesError } from "../../../features/categoriesSlice";
 import { useEffect } from "react";
 import { MySpinnerLoader } from "../../UI/spinnerLoader/MySpinnerLoader";
+import { toast, ToastContainer } from "react-toastify";
 const genresSchema = yup.object().shape({
-  name: yup.string().required("Name is a required !!!"),
+  name: yup.string().required("Name is a required !!!").matches(/^[A-Z][a-z]*$/, "Only alphabets are allowed and first letter must been to upper case").min(3, "Genre should be at least 3 chars long"),
 });
 export const AddAndEditGenres = () => {
   const genreId = +useParams().id;
@@ -41,15 +42,40 @@ export const AddAndEditGenres = () => {
         .then((r) => {
           setValue("name", r.name);
         })
-        .catch((e) => console.log(e));
     } else {
       reset();
     }
   }, [dispatch, genreId, setValue, reset]);
-  const onSubmitHandler = (genre) => {
+  const onSubmitHandler = async (genre) => {
     if (!genreId) {
-      dispatch(newGenres(genre));
-      alertAdded("Genres");
+      dispatch(newGenres(genre)).unwrap()
+        .then(res => {
+          alertAdded("Genres", () => {
+            toast.success(res, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          })
+        }).catch(e => {
+          alertAdded("Genres", () => {
+            toast.error(e, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          })
+        })
       reset();
     } else {
       alertEdited("Genres", () =>
@@ -59,6 +85,18 @@ export const AddAndEditGenres = () => {
   };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {genresLoading ? (
         <MySpinnerLoader loading={genresLoading} />
       ) : genresError ? (
