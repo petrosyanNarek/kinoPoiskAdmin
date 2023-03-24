@@ -29,8 +29,13 @@ export const addNewFilm = createAsyncThunk(
         data.append(e, film[e]);
       }
     });
+    try {
+      const respons = await await api.post(process.env.REACT_APP_ADD_NEW_FILM, data);
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
 
-    await api.post(process.env.REACT_APP_ADD_NEW_FILM, data);
   }
 );
 
@@ -49,8 +54,13 @@ export const editFilm = createAsyncThunk(
         data.append(e, film[e]);
       }
     });
+    try {
+      const respons = await api.put(process.env.REACT_APP_UPDATE_FILM_BY_ID, data);
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
 
-    await api.put(process.env.REACT_APP_UPDATE_FILM_BY_ID, data);
   }
 );
 

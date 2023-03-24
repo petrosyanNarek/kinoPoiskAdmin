@@ -16,6 +16,7 @@ import { MySpinnerLoader } from "../../UI/spinnerLoader/MySpinnerLoader";
 import { ToastContainer } from "react-toastify";
 import { anySchema } from "../../../valiadtion/anyTablesValidation";
 import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
+import { regexp } from "../../../valiadtion/regexpValidation";
 export const AddAndEditGenres = () => {
   const genreId = +useParams().id;
   const dispatch = useDispatch();
@@ -30,9 +31,8 @@ export const AddAndEditGenres = () => {
   } = useForm({
     resolver: yupResolver(
       anySchema("Genre", 3, 15, {
-        test: /^[A-Z][a-z]*$/,
-        message:
-          "Only alphabets are allowed and first letter must been to upper case",
+        test: regexp.name.reg,
+        message: regexp.name.message,
       })
     ),
     defaultValues: {

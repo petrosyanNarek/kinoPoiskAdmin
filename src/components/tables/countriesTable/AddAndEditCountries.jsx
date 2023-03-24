@@ -16,7 +16,7 @@ import { alertEdited } from "../../../hooks/alertEdited";
 import { anySchema } from "../../../valiadtion/anyTablesValidation";
 import { ToastContainer } from "react-toastify";
 import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
-
+import { regexp } from "../../../valiadtion/regexpValidation";
 export const AddAndEditCountries = () => {
   const dispatch = useDispatch();
   const countryId = +useParams().id;
@@ -31,9 +31,8 @@ export const AddAndEditCountries = () => {
   } = useForm({
     resolver: yupResolver(
       anySchema("Country", 2, 10, {
-        test: /^[A-Z][A-Za-z]*$/,
-        message:
-          "Only alphabets are allowed and all letter must been to upper case",
+        test: regexp.country.reg,
+        message: regexp.country.message,
       })
     ),
   });

@@ -1,5 +1,4 @@
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 
 export const alertEdited = (name, edit) => {
   let timerInterval;

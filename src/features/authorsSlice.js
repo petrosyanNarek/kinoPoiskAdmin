@@ -59,6 +59,12 @@ export const updateAuthor = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
+    try {
+      const respons = await api.put(process.env.REACT_APP_UPDATE_AUTHOR, { id, ...author })
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
   }
 );
 
@@ -67,9 +73,10 @@ export const newAuthor = createAsyncThunk(
 
   async function (author, { rejectWithValue }) {
     try {
-      await api.post(process.env.REACT_APP_NEW_AUTHOR, { author });
-    } catch (error) {
-      return rejectWithValue(error);
+      const respons = await api.post(process.env.REACT_APP_NEW_ACTOR, author);
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
     }
   }
 );

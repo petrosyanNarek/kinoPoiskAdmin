@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { getFilms, selectFilms } from "../../../features/filmSlice";
 import {
@@ -17,6 +16,8 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { MySpinnerLoader } from "../../UI/spinnerLoader/MySpinnerLoader";
 import { SeriaSchema } from "../../../valiadtion/seriesValidation";
+import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
+import { ToastContainer } from "react-toastify";
 
 export const AddAndEditSeries = () => {
   const [videoSelect, setVideoSelect] = useState(false);
@@ -37,9 +38,6 @@ export const AddAndEditSeries = () => {
     reset,
   } = useForm({
     resolver: yupResolver(SeriaSchema(seriaId)),
-    defaultValues: {
-      name: "",
-    },
   });
   useEffect(() => {
     dispatch(getFilms());
@@ -58,17 +56,47 @@ export const AddAndEditSeries = () => {
   }, [dispatch, seriaId, setValue, reset]);
   const onSubmitHandler = (seria) => {
     if (!seriaId) {
-      dispatch(newSeries(seria));
+      dispatch(newSeries(seria))
+        .unwrap()
+        .then((res) => {
+          alertAdded("Series", () => {
+            toestySuccess(res);
+          });
+        })
+        .catch((e) => {
+          alertAdded("Series", () => {
+            toestyError(e.data ? e.data : "Network Error");
+          });
+        });
       alertAdded("Series");
       reset();
     } else {
       alertEdited("Series", () =>
         dispatch(updateSeries({ seria, id: seriaId }))
+          .unwrap()
+          .then((res) => {
+            toestySuccess(res);
+          })
+          .catch((e) => {
+            toestyError(e.data ? e.data : "Network Error");
+          })
       );
     }
   };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {seriesLoading ? (
         <MySpinnerLoader loading={seriesLoading} />
       ) : seriesError ? (

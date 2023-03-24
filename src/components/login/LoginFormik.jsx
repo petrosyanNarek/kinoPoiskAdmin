@@ -51,9 +51,7 @@ export const LoginFormik = ({ setLoading }) => {
                 theme: "colored",
               });
             });
-          resetForm({
-            values: initialValues,
-          });
+
         }}
       >
         {({ errors, touched }) => (

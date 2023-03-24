@@ -14,9 +14,10 @@ import { alertAdded } from "./../../../hooks/alertAdded";
 import { alertEdited } from "./../../../hooks/alertEdited";
 import { MySpinnerLoader } from "./../../UI/spinnerLoader/MySpinnerLoader";
 import { Navigate } from "react-router-dom";
-import { anySchema, regexp } from "./../../../valiadtion/anyTablesValidation";
+import { anySchema } from "./../../../valiadtion/anyTablesValidation";
 import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
 import { ToastContainer } from "react-toastify";
+import { regexp } from "../../../valiadtion/regexpValidation";
 
 export const AddAndEditCategories = () => {
   const dispatch = useDispatch();

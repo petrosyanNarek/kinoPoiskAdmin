@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAuthorById,
@@ -14,11 +13,9 @@ import { Navigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { MySpinnerLoader } from "../../UI/spinnerLoader/MySpinnerLoader";
-const authorsSchema = yup.object().shape({
-  name: yup.string().required("Name is a required !!!"),
-  surname: yup.string().required("surname is a required !!!"),
-  info: yup.string().required("info is a required !!!"),
-});
+import { actorAuthorSchema } from "../../../valiadtion/actorAuthorValidation";
+import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
+
 export const AddAndEditAuthors = () => {
   const dispatch = useDispatch();
   const authorId = +useParams().id;
@@ -31,10 +28,7 @@ export const AddAndEditAuthors = () => {
     formState: { errors, touchedFields },
     reset,
   } = useForm({
-    resolver: yupResolver(authorsSchema),
-    defaultValues: {
-      name: "",
-    },
+    resolver: yupResolver(actorAuthorSchema),
   });
   useEffect(() => {
     if (authorId) {
@@ -52,12 +46,28 @@ export const AddAndEditAuthors = () => {
   }, [dispatch, authorId, setValue, reset]);
   const onSubmitHandler = (author) => {
     if (!authorId) {
-      dispatch(newAuthor(author));
-      alertAdded("Author");
-      reset();
+      dispatch(newAuthor(author))
+        .unwrap()
+        .then((res) => {
+          alertAdded("Author", () => {
+            toestySuccess(res);
+          });
+        })
+        .catch((e) => {
+          alertAdded("Author", () => {
+            toestyError(e.data ? e.data : "Network Error");
+          });
+        });
     } else {
       alertEdited("Author", () =>
         dispatch(updateAuthor({ author, id: authorId }))
+          .unwrap()
+          .then((res) => {
+            toestySuccess(res);
+          })
+          .catch((e) => {
+            toestyError(e.data ? e.data : "Network Error");
+          })
       );
     }
   };
