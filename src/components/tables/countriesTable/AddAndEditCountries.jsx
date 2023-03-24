@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import {
@@ -14,9 +13,10 @@ import { MySpinnerLoader } from "../../UI/spinnerLoader/MySpinnerLoader";
 import { useEffect } from "react";
 import { alertAdded } from "../../../hooks/alertAdded";
 import { alertEdited } from "../../../hooks/alertEdited";
-const countriesSchema = yup.object().shape({
-  name: yup.string().required("Name is a required !!!"),
-});
+import { anySchema } from "../../../valiadtion/anyTablesValidation";
+import { ToastContainer } from "react-toastify";
+import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
+
 export const AddAndEditCountries = () => {
   const dispatch = useDispatch();
   const countryId = +useParams().id;
@@ -29,7 +29,13 @@ export const AddAndEditCountries = () => {
     formState: { errors, touchedFields },
     reset,
   } = useForm({
-    resolver: yupResolver(countriesSchema),
+    resolver: yupResolver(
+      anySchema("Country", 2, 10, {
+        test: /^[A-Z][A-Za-z]*$/,
+        message:
+          "Only alphabets are allowed and all letter must been to upper case",
+      })
+    ),
   });
   useEffect(() => {
     if (countryId) {
@@ -45,17 +51,46 @@ export const AddAndEditCountries = () => {
   }, [dispatch, countryId, setValue, reset]);
   const onSubmitHandler = (country) => {
     if (!countryId) {
-      dispatch(newCountries(country));
-      alertAdded("Country");
+      dispatch(newCountries(country))
+        .unwrap()
+        .then((res) => {
+          alertAdded("Country", () => {
+            toestySuccess(res);
+          });
+        })
+        .catch((e) => {
+          alertAdded("Country", () => {
+            toestyError(e.data ? e.data : "Network Error");
+          });
+        });
       reset();
     } else {
       alertEdited("Country", () =>
         dispatch(updateCountries({ country, id: countryId }))
+          .unwrap()
+          .then((res) => {
+            toestySuccess(res);
+          })
+          .catch((e) => {
+            toestyError(e.data ? e.data : "Network Error");
+          })
       );
     }
   };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {countriesLoading ? (
         <MySpinnerLoader loading={countriesLoading} />
       ) : countriesError ? (

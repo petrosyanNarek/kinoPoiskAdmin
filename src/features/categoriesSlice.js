@@ -33,7 +33,16 @@ export const updateCategories = createAsyncThunk(
   "categories/updateCategories",
 
   async function ({ category, id }, { rejectWithValue }) {
-    await api.put(process.env.REACT_APP_UPDATE_CATEGORY, { category, id });
+    try {
+      const respons = await api.put(process.env.REACT_APP_UPDATE_CATEGORY, {
+        name: category.name,
+        id,
+      });
+
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
   }
 );
 
@@ -41,7 +50,14 @@ export const newCategories = createAsyncThunk(
   "categories/newCategories",
 
   async function (category, { rejectWithValue }) {
-    await api.post(process.env.REACT_APP_NEW_CATEGORY, { category });
+    try {
+      const respons = await api.post(process.env.REACT_APP_NEW_CATEGORY, {
+        name: category.name,
+      });
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
   }
 );
 

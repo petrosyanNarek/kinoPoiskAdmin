@@ -52,7 +52,15 @@ export const updateCountries = createAsyncThunk(
   "countries/updateCountries",
 
   async function ({ country, id }, { rejectWithValue }) {
-    await api.put(process.env.REACT_APP_UPDATE_COUNTRY, { country, id });
+    try {
+      const respons = await api.put(process.env.REACT_APP_UPDATE_COUNTRY, {
+        name: country.name,
+        id,
+      });
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
   }
 );
 
@@ -60,7 +68,14 @@ export const newCountries = createAsyncThunk(
   "countries/newCountries",
 
   async function (country, { rejectWithValue }) {
-    await api.post(process.env.REACT_APP_NEW_COUNTRY, { country });
+    try {
+      const respons = await api.post(process.env.REACT_APP_NEW_COUNTRY, {
+        name: country.name,
+      });
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
   }
 );
 

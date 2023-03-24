@@ -66,7 +66,15 @@ export const updateGenres = createAsyncThunk(
   "genres/updateGenres",
 
   async function ({ genre, id }, { rejectWithValue }) {
-    await api.put(process.env.REACT_APP_UPDATE_GENRE, { genre, id });
+    try {
+      const respons = await api.put(process.env.REACT_APP_UPDATE_GENRE, {
+        name: genre.name,
+        id,
+      });
+      return respons.data;
+    } catch (e) {
+      return rejectWithValue(e.response);
+    }
   }
 );
 export const newGenres = createAsyncThunk(
@@ -74,10 +82,12 @@ export const newGenres = createAsyncThunk(
 
   async function (genre, { rejectWithValue }) {
     try {
-      const respons = await api.post(process.env.REACT_APP_NEW_GENRE, { name: genre.name });
-      return respons.data
+      const respons = await api.post(process.env.REACT_APP_NEW_GENRE, {
+        name: genre.name,
+      });
+      return respons.data;
     } catch (e) {
-      return rejectWithValue(e.response.data)
+      return rejectWithValue(e.response);
     }
   }
 );
@@ -113,7 +123,7 @@ const genresSlice = createSlice({
       .addCase(getGenresById.fulfilled, (state, action) => {
         state.genre = action.payload;
         state.genresLoading = false;
-      })
+      });
   },
 });
 

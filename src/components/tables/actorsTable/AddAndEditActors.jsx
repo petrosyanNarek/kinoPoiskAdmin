@@ -15,11 +15,10 @@ import {
   selectActorsLoading,
   updateActor,
 } from "../../../features/actorsSlice";
-const actorsSchema = yup.object().shape({
-  name: yup.string().required("Name is a required !!!"),
-  surname: yup.string().required("surname is a required !!!"),
-  info: yup.string().required("info is a required !!!"),
-});
+import { ToastContainer } from "react-toastify";
+import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
+import { actorAuthorSchema } from "./../../../valiadtion/actorAuthorValidation";
+
 export const AddAndEditActors = () => {
   const dispatch = useDispatch();
   const actorId = +useParams().id;
@@ -32,7 +31,7 @@ export const AddAndEditActors = () => {
     formState: { errors, touchedFields },
     reset,
   } = useForm({
-    resolver: yupResolver(actorsSchema),
+    resolver: yupResolver(actorAuthorSchema),
     defaultValues: {
       name: "",
     },
@@ -53,17 +52,46 @@ export const AddAndEditActors = () => {
   }, [dispatch, actorId, setValue, reset]);
   const onSubmitHandler = (actor) => {
     if (!actorId) {
-      dispatch(newActor(actor));
-      alertAdded("Actors");
+      dispatch(newActor(actor))
+        .unwrap()
+        .then((res) => {
+          alertAdded("Actors", () => {
+            toestySuccess(res);
+          });
+        })
+        .catch((e) => {
+          alertAdded("Actors", () => {
+            toestyError(e.data ? e.data : "Network Error");
+          });
+        });
       reset();
     } else {
       alertEdited("Actors", () =>
         dispatch(updateActor({ actor, id: actorId }))
+          .unwrap()
+          .then((res) => {
+            toestySuccess(res);
+          })
+          .catch((e) => {
+            toestyError(e.data ? e.data : "Network Error");
+          })
       );
     }
   };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {actorsLoading ? (
         <MySpinnerLoader loading={actorsLoading} />
       ) : actorsError ? (

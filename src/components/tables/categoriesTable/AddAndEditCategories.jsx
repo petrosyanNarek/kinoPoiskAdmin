@@ -1,4 +1,3 @@
-import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -15,9 +14,10 @@ import { alertAdded } from "./../../../hooks/alertAdded";
 import { alertEdited } from "./../../../hooks/alertEdited";
 import { MySpinnerLoader } from "./../../UI/spinnerLoader/MySpinnerLoader";
 import { Navigate } from "react-router-dom";
-const categoriesSchema = yup.object().shape({
-  name: yup.string().required("Name is a required !!!"),
-});
+import { anySchema, regexp } from "./../../../valiadtion/anyTablesValidation";
+import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
+import { ToastContainer } from "react-toastify";
+
 export const AddAndEditCategories = () => {
   const dispatch = useDispatch();
   const categoriesId = +useParams().id;
@@ -30,7 +30,12 @@ export const AddAndEditCategories = () => {
     formState: { errors, touchedFields },
     reset,
   } = useForm({
-    resolver: yupResolver(categoriesSchema),
+    resolver: yupResolver(
+      anySchema("Category", 3, 15, {
+        test: regexp.name.reg,
+        message: regexp.name.message,
+      })
+    ),
   });
   useEffect(() => {
     if (categoriesId) {
@@ -38,25 +43,53 @@ export const AddAndEditCategories = () => {
         .unwrap()
         .then((r) => {
           setValue("name", r.name);
-        })
-        .catch((e) => console.log(e));
+        });
     } else {
       reset();
     }
   }, [dispatch, categoriesId, setValue, reset]);
   const onSubmitHandler = (category) => {
     if (!categoriesId) {
-      dispatch(newCategories(category));
-      alertAdded("Categories");
+      dispatch(newCategories(category))
+        .unwrap()
+        .then((res) => {
+          alertAdded("Categories", () => {
+            toestySuccess(res);
+          });
+        })
+        .catch((e) => {
+          alertAdded("Genres", () => {
+            toestyError(e.data ? e.data : "Network Error");
+          });
+        });
       reset();
     } else {
       alertEdited("Categories", () =>
         dispatch(updateCategories({ category, id: categoriesId }))
+          .unwrap()
+          .then((res) => {
+            toestySuccess(res);
+          })
+          .catch((e) => {
+            toestyError(e.data ? e.data : "Network Error");
+          })
       );
     }
   };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {categoriesLoading ? (
         <MySpinnerLoader loading={categoriesLoading} />
       ) : categoriesError ? (

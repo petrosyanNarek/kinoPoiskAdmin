@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export const alertEdited = (name, edit) => {
   let timerInterval;
@@ -17,7 +18,6 @@ export const alertEdited = (name, edit) => {
         timer: 2000,
         timerProgressBar: true,
         didOpen: () => {
-          edit();
           Swal.showLoading();
           const b = Swal.getHtmlContainer().querySelector("b");
           timerInterval = setInterval(() => {
@@ -25,6 +25,7 @@ export const alertEdited = (name, edit) => {
           }, 100);
         },
         willClose: () => {
+          edit();
           clearInterval(timerInterval);
         },
       });
