@@ -12,13 +12,17 @@ function isValidFileType(fileName, fileType) {
 }
 export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
   return yup.object().shape({
-    name: yup.string("Not valid type of name").required("Name is a required !!!"),
+    name: yup
+      .string("Not valid type of name")
+      .required("Name is a required !!!"),
     shortDescription: yup
       .string("Not valid type of short description")
       .required("Short Description is a required !!!"),
     description: yup.string().required("Description is required"),
     createdYear: yup
-      .number("Not valid type of year")
+      .number()
+      .required("Created Year is required")
+      .typeError("Is not valid type")
       .min(
         1890,
         "The date of the film cannot be less than 1890, because the first film was shot in that year."
@@ -26,8 +30,7 @@ export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
       .max(
         new Date().getFullYear(),
         "The movie date couldn't be bigger than this year"
-      )
-      .required("Created Year is required"),
+      ),
     rating: yup
       .number("Not valid type of rating")
       .min(0, "Rating cannot be negative")
@@ -57,38 +60,38 @@ export const FilmSchema = (videoSelect, trailerSelect, imgSelect, filmId) => {
     cardImg:
       !filmId || imgSelect
         ? yup
-          .mixed()
-          .required("Required")
-          .test("is-valid-type", "Not a valid image type", (value) =>
-            isValidFileType(
-              value && value.name && value.name.toLowerCase(),
-              "image"
+            .mixed()
+            .required("Required")
+            .test("is-valid-type", "Not a valid image type", (value) =>
+              isValidFileType(
+                value && value.name && value.name.toLowerCase(),
+                "image"
+              )
             )
-          )
         : "",
     trailer:
       !filmId || trailerSelect
         ? yup
-          .mixed()
-          .required("Required")
-          .test("is-valid-type", "Not a valid vidio type", (value) =>
-            isValidFileType(
-              value && value.name && value.name.toLowerCase(),
-              "video"
+            .mixed()
+            .required("Required")
+            .test("is-valid-type", "Not a valid vidio type", (value) =>
+              isValidFileType(
+                value && value.name && value.name.toLowerCase(),
+                "video"
+              )
             )
-          )
         : "",
     video:
       !filmId || videoSelect
         ? yup
-          .mixed()
-          .required("Required")
-          .test("is-valid-type", "Not a valid vidio type", (value) =>
-            isValidFileType(
-              value && value.name && value.name.toLowerCase(),
-              "video"
+            .mixed()
+            .required("Required")
+            .test("is-valid-type", "Not a valid vidio type", (value) =>
+              isValidFileType(
+                value && value.name && value.name.toLowerCase(),
+                "video"
+              )
             )
-          )
         : "",
   });
 };

@@ -45,6 +45,7 @@ export const AddAndEditFilm = () => {
   const multiAuthors = reduceMultiSelectArray(useSelector(selectAuthors));
   const multiGenres = reduceMultiSelectArray(useSelector(selectGenres));
   const multiCountries = reduceMultiSelectArray(useSelector(selectCountries));
+
   const {
     register,
     setValue,
@@ -58,6 +59,8 @@ export const AddAndEditFilm = () => {
       FilmSchema(videoSelect, trailerSelect, imgSelect, filmId)
     ),
     defaultValues: {
+      name: "",
+      shortDescription: "",
       genres: [],
       countries: [],
       actors: [],
@@ -66,6 +69,9 @@ export const AddAndEditFilm = () => {
       trailer: {},
     },
   });
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getGenres());
@@ -153,7 +159,7 @@ export const AddAndEditFilm = () => {
                 name="name"
                 className="input"
               />
-              {touchedFields.name && errors.name?.message && (
+              {errors.name?.message && (
                 <div className="errors">{errors.name?.message}</div>
               )}
             </div>
