@@ -108,18 +108,20 @@ export const AddAndEditFilm = () => {
             toestyError(e.data ? e.data : "Network Error");
           });
         });
-      reset();
+      // reset();
     } else {
       alertEdited("Film", () =>
-        dispatch(editFilm({ film, id: filmId })
-          .unwrap()
-          .then((res) => {
-            toestySuccess(res);
-          })
-          .catch((e) => {
-            toestyError(e.data ? e.data : "Network Error");
-          })
-        ))
+        dispatch(
+          editFilm({ film, id: filmId })
+            .unwrap()
+            .then((res) => {
+              toestySuccess(res);
+            })
+            .catch((e) => {
+              toestyError(e.data ? e.data : "Network Error");
+            })
+        )
+      );
     }
   };
   return (
@@ -169,7 +171,9 @@ export const AddAndEditFilm = () => {
               />
               {touchedFields.shortDescription &&
                 errors.shortDescription?.message && (
-                  <div className="errors">{errors.shortDescription?.message}</div>
+                  <div className="errors">
+                    {errors.shortDescription?.message}
+                  </div>
                 )}
             </div>
           </div>
@@ -307,7 +311,9 @@ export const AddAndEditFilm = () => {
                         labelledBy="Countries"
                       />
                       {errors.countries?.message && (
-                        <div className="errors">{errors.countries?.message}</div>
+                        <div className="errors">
+                          {errors.countries?.message}
+                        </div>
                       )}
                     </>
                   );

@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { MySpinnerLoader } from "../../UI/spinnerLoader/MySpinnerLoader";
 import { actorAuthorSchema } from "../../../valiadtion/actorAuthorValidation";
 import { toestyError, toestySuccess } from "../../UI/toasty/toastyCreater";
+import { ToastContainer } from "react-toastify";
 
 export const AddAndEditAuthors = () => {
   const dispatch = useDispatch();
@@ -73,6 +74,18 @@ export const AddAndEditAuthors = () => {
   };
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       {authorsLoading ? (
         <MySpinnerLoader loading={authorsLoading} />
       ) : authorsError ? (
