@@ -68,7 +68,6 @@ export const AddAndEditSeries = () => {
             toestyError(e.data ? e.data : "Network Error");
           });
         });
-      alertAdded("Series");
       reset();
     } else {
       alertEdited("Series", () =>

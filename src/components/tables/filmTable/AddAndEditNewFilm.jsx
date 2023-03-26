@@ -119,14 +119,14 @@ export const AddAndEditFilm = () => {
       alertEdited("Film", () =>
         dispatch(
           editFilm({ film, id: filmId })
-            .unwrap()
-            .then((res) => {
-              toestySuccess(res);
-            })
-            .catch((e) => {
-              toestyError(e.data ? e.data : "Network Error");
-            })
         )
+          .unwrap()
+          .then((res) => {
+            toestySuccess(res);
+          })
+          .catch((e) => {
+            toestyError(e.data ? e.data : "Network Error");
+          })
       );
     }
   };
@@ -175,7 +175,7 @@ export const AddAndEditFilm = () => {
                 name="shortDescription"
                 className="input text-area"
               />
-              {touchedFields.shortDescription &&
+              {
                 errors.shortDescription?.message && (
                   <div className="errors">
                     {errors.shortDescription?.message}
@@ -194,7 +194,7 @@ export const AddAndEditFilm = () => {
                 name="description"
                 className="input text-area"
               />
-              {touchedFields.description && errors.description?.message && (
+              {errors.description?.message && (
                 <div className="errors">{errors.description?.message}</div>
               )}
             </div>
@@ -211,7 +211,7 @@ export const AddAndEditFilm = () => {
                 name="createdYear"
                 className="input"
               />
-              {touchedFields.createdYear && errors.createdYear?.message && (
+              {errors.createdYear?.message && (
                 <div className="errors">{errors.createdYear?.message}</div>
               )}
             </div>
@@ -228,7 +228,7 @@ export const AddAndEditFilm = () => {
                 name="views"
                 className="input"
               />
-              {touchedFields.views && errors.views?.message && (
+              {errors.views?.message && (
                 <div className="errors">{errors.views?.message}</div>
               )}
             </div>
@@ -244,7 +244,7 @@ export const AddAndEditFilm = () => {
                 name="rating"
                 className="input"
               />
-              {touchedFields.rating && errors.rating?.message && (
+              {errors.rating?.message && (
                 <div className="errors">{errors.rating?.message}</div>
               )}
             </div>
@@ -266,7 +266,7 @@ export const AddAndEditFilm = () => {
                   ))}
                 </optgroup>
               </select>
-              {touchedFields.categoryId && errors.categoryId?.message && (
+              {errors.categoryId?.message && (
                 <div className="errors">{errors.categoryId?.message}</div>
               )}
             </div>
